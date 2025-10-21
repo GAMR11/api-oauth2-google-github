@@ -1,0 +1,184 @@
+### Variables
+@baseUrl = http://localhost:3000/api/v1
+@contentType = application/json
+
+### ========================================
+### 1. Health Check
+### ========================================
+GET {{baseUrl}}/auth/me
+Content-Type: {{contentType}}
+
+### ========================================
+### 2. REGISTER - Crear nuevo usuario
+### ========================================
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "Password123!",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### ========================================
+### 3. LOGIN - Autenticar usuario
+### ========================================
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "Password123!"
+}
+
+### ========================================
+### 4. Guardar tokens (ejecutar después del login)
+### ========================================
+@accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+
+### ========================================
+### 5. GET PROFILE - Obtener perfil (requiere autenticación)
+### ========================================
+GET {{baseUrl}}/auth/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### ========================================
+### 6. REFRESH TOKEN - Renovar access token
+### ========================================
+# @name refresh
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### ========================================
+### 7. Actualizar tokens después del refresh
+### ========================================
+@newAccessToken = {{refresh.response.body.accessToken}}
+@newRefreshToken = {{refresh.response.body.refreshToken}}
+
+### ========================================
+### 8. GET USER INFO - Con nuevo token
+### ========================================
+GET {{baseUrl}}/users/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{newAccessToken}}
+
+### ========================================
+### 9. UPDATE PROFILE - Actualizar perfil
+### ========================================
+PATCH {{baseUrl}}/users/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "firstName": "Johnny",
+  "lastName": "Doe Updated"
+}
+
+### ========================================
+### 10. LOGOUT - Cerrar sesión
+### ========================================
+POST {{baseUrl}}/auth/logout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### ========================================
+### 11. LOGOUT ALL - Cerrar todas las sesiones
+### ========================================
+POST {{baseUrl}}/auth/logout-all
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### ========================================
+### 12. Crear usuario ADMIN (para pruebas de roles)
+### ========================================
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "Admin123!",
+  "firstName": "Admin",
+  "lastName": "User",
+  "role": "admin"
+}
+
+### ========================================
+### 13. Login como ADMIN
+### ========================================
+# @name adminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "Admin123!"
+}
+
+### ========================================
+@adminToken = {{adminLogin.response.body.accessToken}}
+
+### ========================================
+### 14. GET ALL USERS (solo admin)
+### ========================================
+GET {{baseUrl}}/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{adminToken}}
+
+### ========================================
+### 15. OAuth2 - Google (abrir en navegador)
+### ========================================
+# GET http://localhost:3000/api/v1/auth/google
+
+### ========================================
+### 16. OAuth2 - GitHub (abrir en navegador)
+### ========================================
+# GET http://localhost:3000/api/v1/auth/github
+
+### ========================================
+### 17. Intentar acceso sin token (debe fallar)
+### ========================================
+GET {{baseUrl}}/users/me
+Content-Type: {{contentType}}
+
+### ========================================
+### 18. Intentar acceso con token inválido (debe fallar)
+### ========================================
+GET {{baseUrl}}/users/me
+Content-Type: {{contentType}}
+Authorization: Bearer invalid_token_here
+
+### ========================================
+### 19. Registro con contraseña débil (debe fallar)
+### ========================================
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "weak@example.com",
+  "password": "123",
+  "firstName": "Weak",
+  "lastName": "Password"
+}
+
+### ========================================
+### 20. Login con credenciales incorrectas (debe fallar)
+### ========================================
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "WrongPassword!"
+}
