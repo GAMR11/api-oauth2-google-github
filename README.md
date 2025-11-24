@@ -78,8 +78,8 @@ Sistema de autenticación centralizada construido con NestJS, TypeORM, PostgreSQ
 
 ### **1. Clonar repositorio:**
 ```bash
-git clone https://github.com/tu-usuario/auth-service-oauth2.git
-cd auth-service-oauth2
+git clone https://github.com/GAMR11/api-oauth2-google-github.git
+cd api-oauth2-google-github
 ```
 
 ### **2. Instalar dependencias:**
@@ -357,18 +357,6 @@ src/
 
 ---
 
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
----
-
 ## 📝 Licencia
 
 Este proyecto está bajo la licencia MIT.
@@ -379,9 +367,9 @@ Este proyecto está bajo la licencia MIT.
 
 **Tu Nombre**
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
-- Email: tu-email@ejemplo.com
+- GitHub: [@tu-usuario](https://github.com/GAMR11)
+- LinkedIn: [Tu LinkedIn](https://www.linkedin.com/in/gustavo-morales-640259221/)
+- Email: gamr130898@gmail.com
 
 ---
 
